@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: SQL2AMN.edit;singleton:=true
+Automatic-Module-Name: SQL2AMN.edit
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: sQL2AMN.sql.provider.SQL2AMNEditPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Export-Package: sQL2AMN.amn.provider,
+ sQL2AMN.sql.provider
+Require-Bundle: org.eclipse.core.runtime,
+ SQL2AMN;visibility:=reexport,
+ org.eclipse.emf.edit;visibility:=reexport
+Bundle-ActivationPolicy: lazy

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated sQL2AMN -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="sQL2AMN.sql.presentation.SqlModelWizardID"
+            name="%_UI_SqlModelWizard_label"
+            class="sQL2AMN.sql.presentation.SqlModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/SqlModelFile.gif">
+         <description>%_UI_SqlModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated sQL2AMN -->
+      <editor
+            id="sQL2AMN.sql.presentation.SqlEditorID"
+            name="%_UI_SqlEditor_label"
+            icon="icons/full/obj16/SqlModelFile.gif"
+            extensions="sql"
+            class="sQL2AMN.sql.presentation.SqlEditor"
+            contributorClass="sQL2AMN.sql.presentation.SqlActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated sQL2AMN -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="sQL2AMN.amn.presentation.AmnModelWizardID"
+            name="%_UI_AmnModelWizard_label"
+            class="sQL2AMN.amn.presentation.AmnModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/AmnModelFile.gif">
+         <description>%_UI_AmnModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated sQL2AMN -->
+      <editor
+            id="sQL2AMN.amn.presentation.AmnEditorID"
+            name="%_UI_AmnEditor_label"
+            icon="icons/full/obj16/AmnModelFile.gif"
+            extensions="amn"
+            class="sQL2AMN.amn.presentation.AmnEditor"
+            contributorClass="sQL2AMN.amn.presentation.AmnActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

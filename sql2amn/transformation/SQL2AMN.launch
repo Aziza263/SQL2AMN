@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.m2m.atl.core.ui.launcher.atlLaunchConfiguration">
+<listAttribute key="ModelHandler">
+<listEntry value="EMF"/>
+<listEntry value="EMF"/>
+</listAttribute>
+<listAttribute key="IN">
+<listEntry value="SQL"/>
+</listAttribute>
+<listAttribute key="OUT">
+<listEntry value="AMN"/>
+</listAttribute>
+<listAttribute key="INModelFile">
+<listEntry value="SQL=platform:/resource/sql2amn/example.xmi"/>
+</listAttribute>
+<listAttribute key="OUTModelFile">
+<listEntry value="AMN=platform:/resource/sql2amn/example_amn.xmi"/>
+</listAttribute>
+<listAttribute key="INMetamodel">
+<listEntry value="SQL=platform:/resource/sql2amn/model/SQL2AMN.ecore"/>
+</listAttribute>
+<listAttribute key="OUTMetamodel">
+<listEntry value="AMN=platform:/resource/sql2amn/model/SQL2AMN.ecore"/>
+</listAttribute>
+<stringAttribute key="ATLFileName" value="platform:/resource/sql2amn/transformation/SQL2AMN.atl"/>
+</launchConfiguration>

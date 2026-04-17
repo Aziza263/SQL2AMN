@@ -1,0 +1,209 @@
+-- =========================================================
+-- ATL-трансформация: SQL -> AMN
+-- Преобразует модель SQL (экземпляр sql-метамодели)
+-- в модель AMN (экземпляр amn-метамодели)
+-- =========================================================
+
+module SQL2AMN;
+create OUT : AMN from IN : SQL;
+
+-- =========================================================
+-- ПРАВИЛО 1: SQLProgram -> AMNMachine
+-- Корневое правило. Каждая SQL-программа становится
+-- одной AMN-машиной.
+-- =========================================================
+rule SQLProgram2AMNMachine {
+    from
+        p : SQL!SQLProgram
+    to
+        m : AMN!AMNMachine (
+            name <- 'GeneratedMachine',
+            variables <- p.procedures->collect(proc |
+                proc.declarations)->flatten()->collect(decl |
+                    thisModule.Declaration2Variable(decl)),
+            operations <- p.procedures->collect(proc |
+                proc.body)->flatten()->collect(stmt |
+                    thisModule.Statement2Operation(stmt))
+        )
+}
+
+-- =========================================================
+-- ПРАВИЛО 2: VariableDeclaration -> Variable
+-- Каждое объявление переменной в DECLARE становится
+-- переменной состояния AMN-машины
+-- =========================================================
+rule Declaration2Variable(decl : SQL!VariableDeclaration) {
+    to
+        v : AMN!Variable (
+            name <- decl.name,
+            typeName <- thisModule.mapType(decl.typeName)
+        )
+    do { v; }
+}
+
+-- =========================================================
+-- ПРАВИЛО 3: InsertStatement -> Operation
+-- Оператор INSERT INTO становится операцией AMN
+-- с подстановкой ANY pk WHERE ... THEN t := t \/ {rec(...)}
+-- =========================================================
+rule InsertStatement2Operation(stmt : SQL!InsertStatement) {
+    to
+        op : AMN!Operation (
+            name <- 'insert_into_' + stmt.tableName,
+            body <- thisModule.buildInsertBody(stmt)
+        )
+    do { op; }
+}
+
+-- =========================================================
+-- ПРАВИЛО 4: SelectIntoStatement -> Operation  
+-- Оператор SELECT INTO становится операцией AMN
+-- с подстановкой ANY vv WHERE ... THEN var := vv'col END
+-- =========================================================
+rule SelectIntoStatement2Operation(stmt : SQL!SelectIntoStatement) {
+    to
+        op : AMN!Operation (
+            name <- 'select_into_' + stmt.targetVar,
+            body <- thisModule.buildSelectIntoBody(stmt)
+        )
+    do { op; }
+}
+
+-- =========================================================
+-- ПРАВИЛО 5: IfStatement -> Operation
+-- Оператор IF становится операцией AMN
+-- с условной подстановкой IF cond THEN S END
+-- =========================================================
+rule IfStatement2Operation(stmt : SQL!IfStatement) {
+    to
+        op : AMN!Operation (
+            name <- 'if_operation',
+            body <- thisModule.buildIfBody(stmt)
+        )
+    do { op; }
+}
+
+-- =========================================================
+-- ПРАВИЛО 6: ForLoopStatement -> Operation
+-- Оператор FOR LOOP становится операцией AMN
+-- с подстановкой SELECT state THEN ... END
+-- =========================================================
+rule ForLoopStatement2Operation(stmt : SQL!ForLoopStatement) {
+    to
+        op : AMN!Operation (
+            name <- 'loop_' + stmt.fromTable,
+            body <- thisModule.buildForLoopBody(stmt)
+        )
+    do { op; }
+}
+
+-- =========================================================
+-- ВСПОМОГАТЕЛЬНЫЕ ОПЕРАЦИИ (helpers)
+-- =========================================================
+
+-- Определяем какое правило применить к оператору
+helper def Statement2Operation(stmt : SQL!Statement) : AMN!Operation =
+    if stmt.oclIsTypeOf(SQL!InsertStatement) then
+        thisModule.InsertStatement2Operation(stmt)
+    else if stmt.oclIsTypeOf(SQL!SelectIntoStatement) then
+        thisModule.SelectIntoStatement2Operation(stmt)
+    else if stmt.oclIsTypeOf(SQL!IfStatement) then
+        thisModule.IfStatement2Operation(stmt)
+    else if stmt.oclIsTypeOf(SQL!ForLoopStatement) then
+        thisModule.ForLoopStatement2Operation(stmt)
+    else
+        thisModule.buildSkip()
+    endif endif endif endif;
+
+-- Строим тело для INSERT INTO:
+-- PRE params:T THEN
+--   ANY pk WHERE pk:INT & not(#(x).(x:t & x'id=pk))
+--   THEN t := t \/ {rec(...)} END
+-- END
+helper def buildInsertBody(stmt : SQL!InsertStatement) : AMN!Substitution =
+    let pre : AMN!PreSubstitution = AMN!PreSubstitution.newInstance() in
+    let any : AMN!AnySubstitution = AMN!AnySubstitution.newInstance() in
+    let assign : AMN!AssignSubstitution = AMN!AssignSubstitution.newInstance() in
+    let guardExpr : AMN!VarRef = AMN!VarRef.newInstance() in
+    let assignVal : AMN!VarRef = AMN!VarRef.newInstance() in
+    (
+        guardExpr.name <- 'pk:INT',
+        any.boundVar <- 'pk',
+        any.condition <- guardExpr,
+        assignVal.name <- stmt.tableName + ' \\/ {rec(' +
+            stmt.columns->iterate(c; acc : String = '' |
+                if acc = '' then c else acc + ', ' + c endif) + ')}',
+        assign.variable <- stmt.tableName,
+        assign.value <- assignVal,
+        any.thenBody <- assign,
+        pre.guard <- thisModule.buildVarRef(
+            stmt.columns->iterate(c; acc : String = '' |
+                if acc = '' then c + ':T' else acc + ' & ' + c + ':T' endif)),
+        pre.body <- any,
+        pre
+    );
+
+-- Строим тело для SELECT INTO:
+-- ANY vv WHERE vv:table & vv'col=val
+-- THEN var := vv'col END
+helper def buildSelectIntoBody(stmt : SQL!SelectIntoStatement) : AMN!Substitution =
+    let any : AMN!AnySubstitution = AMN!AnySubstitution.newInstance() in
+    let cond : AMN!VarRef = AMN!VarRef.newInstance() in
+    let assign : AMN!AssignSubstitution = AMN!AssignSubstitution.newInstance() in
+    let val : AMN!VarRef = AMN!VarRef.newInstance() in
+    (
+        any.boundVar <- 'vv',
+        cond.name <- 'vv:' + stmt.fromTable,
+        any.condition <- cond,
+        val.name <- 'vv\'' + stmt.sourceColumn,
+        assign.variable <- stmt.targetVar,
+        assign.value <- val,
+        any.thenBody <- assign,
+        any
+    );
+
+-- Строим тело для IF:
+-- IF cond THEN S END
+helper def buildIfBody(stmt : SQL!IfStatement) : AMN!Substitution =
+    let ifSub : AMN!IfSubstitution = AMN!IfSubstitution.newInstance() in
+    let cond : AMN!VarRef = AMN!VarRef.newInstance() in
+    let skip : AMN!SkipSubstitution = AMN!SkipSubstitution.newInstance() in
+    (
+        cond.name <- if not stmt.condition->isEmpty() then
+            stmt.condition->first().name
+        else 'TRUE' endif,
+        ifSub.condition <- cond,
+        ifSub.thenBody <- thisModule.buildSkip(),
+        ifSub.elseBody <- skip,
+        ifSub
+    );
+
+-- Строим тело для FOR LOOP:
+-- SELECT state = READY THEN ... END
+helper def buildForLoopBody(stmt : SQL!ForLoopStatement) : AMN!Substitution =
+    let sel : AMN!SelectSubstitution = AMN!SelectSubstitution.newInstance() in
+    let cond : AMN!VarRef = AMN!VarRef.newInstance() in
+    (
+        cond.name <- 'records_to_transform /= {}',
+        sel.condition <- cond,
+        sel.thenBody <- thisModule.buildSkip(),
+        sel
+    );
+
+-- Создаём skip-подстановку
+helper def buildSkip() : AMN!SkipSubstitution =
+    let s : AMN!SkipSubstitution = AMN!SkipSubstitution.newInstance() in
+    s;
+
+-- Создаём ссылку на переменную
+helper def buildVarRef(n : String) : AMN!VarRef =
+    let v : AMN!VarRef = AMN!VarRef.newInstance() in
+    (v.name <- n, v);
+
+-- Отображение типов SQL -> AMN
+helper def mapType(sqlType : String) : String =
+    if sqlType = 'BIGINT' then 'INT'
+    else if sqlType = 'VARCHAR' then 'seq(0..255)'
+    else if sqlType = 'RECORD' then 'struct'
+    else sqlType
+    endif endif endif;

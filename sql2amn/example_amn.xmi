@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amn="http://amn/1.0" xsi:schemaLocation="http://amn/1.0 model/SQL2AMN.ecore#//amn">
+  <amn:AMNMachine name="GeneratedMachine">
+    <variables href="#/3"/>
+    <variables href="#/4"/>
+    <operations href="#/5"/>
+    <invariants href="#/2"/>
+    <sets href="#/1"/>
+  </amn:AMNMachine>
+  <amn:SetDefinition name="QUERY_PERFORMED"/>
+  <amn:InvariantPredicate text="state : QUERY_PERFORMED"/>
+  <amn:Variable name="r_land" typeName="struct"/>
+  <amn:Variable name="v_type_id" typeName="INT"/>
+  <amn:Operation name="loop_tmp_land">
+    <body xsi:type="amn:SelectSubtitution" href="#/6"/>
+  </amn:Operation>
+  <amn:SelectSubtitution condition="/7" thenBody="/8"/>
+  <amn:VarRef name="records_to_transform /= {}"/>
+  <amn:AnySubtitution boundVar="vv" condition="/9" thenBody="/10"/>
+  <amn:VarRef name="vv : records_to_transform"/>
+  <amn:AssignSubtitution variable="r_land" value="/11"/>
+  <amn:VarRef name="vv"/>
+</xmi:XMI>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sql:SQLProgram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sql="http://sql/1.0">
+  <procedures name="integrate_land">
+    <body xsi:type="sql:ForLoopStatement" loopVar="r_land" fromTable="tmp_land">
+      <body xsi:type="sql:SelectIntoStatement" targetVar="v_type_id" sourceColumn="land_type_id" fromTable="land_type"/>
+      <body xsi:type="sql:IfStatement">
+        <thenBranch xsi:type="sql:InsertStatement" tableName="land_type">
+          <columns>group_id</columns>
+          <columns>name</columns>
+          <columns>soil</columns>
+        </thenBranch>
+        <condition xsi:type="sql:VariableExpression" name="IS_NULL:v_type_id"/>
+      </body>
+    </body>
+    <declarations name="r_land" typeName="RECORD"/>
+    <declarations name="v_type_id" typeName="BIGINT"/>
+  </procedures>
+</sql:SQLProgram>

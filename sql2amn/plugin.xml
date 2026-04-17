@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated sQL2AMN -->
+      <package
+            uri="http://sql/1.0"
+            class="sQL2AMN.sql.SqlPackage"
+            genModel="model/sQL2AMN.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated sQL2AMN -->
+      <package
+            uri="http://amn/1.0"
+            class="sQL2AMN.amn.AmnPackage"
+            genModel="model/sQL2AMN.genmodel"/>
+   </extension>
+
+</plugin>

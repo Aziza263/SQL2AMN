@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/SQL2AMN/src-gen" creationIcons="false" editDirectory="/SQL2AMN.edit/src-gen"
+    editorDirectory="/SQL2AMN.editor/src-gen" modelPluginID="SQL2AMN" modelName="SQL2AMN"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" codeFormatting="true"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="21.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>sQL2AMN.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="SQL2AMN" disposableProviderFactory="true" ecorePackage="sQL2AMN.ecore#/">
+    <nestedGenPackages prefix="Sql" disposableProviderFactory="true" ecorePackage="sQL2AMN.ecore#//sql">
+      <genClasses ecoreClass="sQL2AMN.ecore#//sql/SQLProgram">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sQL2AMN.ecore#//sql/SQLProgram/procedures"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//sql/Procedure">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/Procedure/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sQL2AMN.ecore#//sql/Procedure/body"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sQL2AMN.ecore#//sql/Procedure/declarations"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="sQL2AMN.ecore#//sql/Statement"/>
+      <genClasses ecoreClass="sQL2AMN.ecore#//sql/CreateTableStatement">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/CreateTableStatement/tableName"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//sql/InsertStatement">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/InsertStatement/tableName"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/InsertStatement/columns"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//sql/SelectIntoStatement">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/SelectIntoStatement/targetVar"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/SelectIntoStatement/sourceColumn"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/SelectIntoStatement/fromTable"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//sql/IfStatement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sQL2AMN.ecore#//sql/IfStatement/thenBranch"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sQL2AMN.ecore#//sql/IfStatement/elseBranch"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sQL2AMN.ecore#//sql/IfStatement/condition"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//sql/ForLoopStatement">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/ForLoopStatement/loopVar"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/ForLoopStatement/fromTable"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sQL2AMN.ecore#//sql/ForLoopStatement/body"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//sql/VariableDeclaration">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/VariableDeclaration/name"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/VariableDeclaration/typeName"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="sQL2AMN.ecore#//sql/Expression"/>
+      <genClasses ecoreClass="sQL2AMN.ecore#//sql/LiteralExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/LiteralExpression/value"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//sql/VariableExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/VariableExpression/name"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//sql/FieldAcessExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/FieldAcessExpression/objectName"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//sql/FieldAcessExpression/fieldName"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Amn" disposableProviderFactory="true" ecorePackage="sQL2AMN.ecore#//amn">
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/AMNMachine">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//amn/AMNMachine/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/AMNMachine/variables"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/AMNMachine/operations"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/AMNMachine/invariants"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/AMNMachine/sets"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/Variable">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//amn/Variable/name"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//amn/Variable/typeName"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/Operation">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//amn/Operation/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/Operation/body"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="sQL2AMN.ecore#//amn/Substitution"/>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/StringLiteral">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//amn/StringLiteral/value"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/VarRef">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//amn/VarRef/name"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/SetMembership">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/SetMembership/left"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/SetMembership/right"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/Conjuction">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/Conjuction/left"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/Conjuction/right"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/InvariantPredicate">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//amn/InvariantPredicate/text"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/SetDefinition">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//amn/SetDefinition/name"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="sQL2AMN.ecore#//amn/Expression"/>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/AssignSubtitution">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//amn/AssignSubtitution/variable"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/AssignSubtitution/value"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/SkipSubtitution"/>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/AnySubtitution">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sQL2AMN.ecore#//amn/AnySubtitution/boundVar"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/AnySubtitution/condition"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/AnySubtitution/thenBody"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/SelectSubtitution">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/SelectSubtitution/condition"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/SelectSubtitution/thenBody"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/IfSubtitution">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/IfSubtitution/condition"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/IfSubtitution/thenBody"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/IfSubtitution/elseBody"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/SequentialSubtitution">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/SequentialSubtitution/first"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/SequentialSubtitution/second"/>
+      </genClasses>
+      <genClasses ecoreClass="sQL2AMN.ecore#//amn/PreSubtitution">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/PreSubtitution/guard"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference sQL2AMN.ecore#//amn/PreSubtitution/body"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

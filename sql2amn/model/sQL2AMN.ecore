@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="sQL2AMN" nsURI="http://www.example.org/sQL2AMN" nsPrefix="sQL2AMN">
+  <eSubpackages name="sql" nsURI="http://sql/1.0" nsPrefix="sql">
+    <eClassifiers xsi:type="ecore:EClass" name="SQLProgram">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="procedures" upperBound="-1"
+          eType="#//sql/Procedure" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Procedure">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" upperBound="-1"
+          eType="#//sql/Statement" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="declarations" upperBound="-1"
+          eType="#//sql/VariableDeclaration" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Statement" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CreateTableStatement" eSuperTypes="#//sql/Statement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tableName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InsertStatement" eSuperTypes="#//sql/Statement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tableName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="columns" upperBound="-1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SelectIntoStatement" eSuperTypes="#//sql/Statement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="targetVar" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceColumn" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="fromTable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IfStatement" eSuperTypes="#//sql/Statement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thenBranch" upperBound="-1"
+          eType="#//sql/Statement" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="elseBranch" upperBound="-1"
+          eType="#//sql/Statement" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//sql/Expression"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ForLoopStatement" eSuperTypes="#//sql/Statement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="loopVar" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="fromTable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" upperBound="-1"
+          eType="#//sql/Statement" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VariableDeclaration">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="LiteralExpression" eSuperTypes="#//sql/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VariableExpression" eSuperTypes="#//sql/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FieldAcessExpression" eSuperTypes="#//sql/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="fieldName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="amn" nsURI="http://amn/1.0" nsPrefix="amn">
+    <eClassifiers xsi:type="ecore:EClass" name="AMNMachine">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+          eType="#//amn/Variable" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+          eType="#//amn/Operation" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="invariants" upperBound="-1"
+          eType="#//amn/InvariantPredicate" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sets" upperBound="-1"
+          eType="#//amn/SetDefinition" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Variable">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Operation">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//amn/Substitution"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Substitution" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="StringLiteral" eSuperTypes="#//amn/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VarRef" eSuperTypes="#//amn/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SetMembership" eSuperTypes="#//amn/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//amn/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//amn/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Conjuction" eSuperTypes="#//amn/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//amn/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//amn/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InvariantPredicate">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SetDefinition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="AssignSubtitution" eSuperTypes="#//amn/Substitution">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="variable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//amn/Expression"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SkipSubtitution" eSuperTypes="#//amn/Substitution"/>
+    <eClassifiers xsi:type="ecore:EClass" name="AnySubtitution" eSuperTypes="#//amn/Substitution">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="boundVar" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//amn/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thenBody" eType="#//amn/Substitution"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SelectSubtitution" eSuperTypes="#//amn/Substitution">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//amn/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thenBody" eType="#//amn/Substitution"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IfSubtitution" eSuperTypes="#//amn/Substitution">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="#//amn/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thenBody" eType="#//amn/Substitution"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="elseBody" eType="#//amn/Substitution"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SequentialSubtitution" eSuperTypes="#//amn/Substitution">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="first" eType="#//amn/Substitution"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="second" eType="#//amn/Substitution"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PreSubtitution" eSuperTypes="#//amn/Substitution">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="#//amn/Expression"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//amn/Substitution"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>
